@@ -1,12 +1,6 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        if len(nums) == 0:
-            return 0
-        prev1 = 0
-        prev2 = 0
-        for num in nums:
-            current = max(prev2 + num, prev1)
-            prev2 = prev1
-            prev1 = current
-            # print(prev1, prev2, current, num)
-        return prev1
+        p2 = p1 = 0
+        for i in nums:
+            p2, p1 = p1, max(p1, p2 + i)
+        return p1
