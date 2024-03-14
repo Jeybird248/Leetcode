@@ -8,7 +8,10 @@ class Solution:
             # Iterate from 1 to i - 1
             for j in range(1, i):
                 # Calculate the maximum product
+                # # print(j, dp[i], j * (i-j), j *dp[i-j])
+                # previous iteration of j vs 2 pair vs n pair * current
                 dp[i] = max(dp[i], max(j * (i - j), j * dp[i - j]))
-        # print(dp)
+                
+            # print(i, dp)
         # Return the maximum product
         return dp[n]
