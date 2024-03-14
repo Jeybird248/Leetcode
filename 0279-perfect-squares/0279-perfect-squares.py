@@ -15,5 +15,6 @@ class Solution:
                     dp[i] = 1
                 elif s < i:
                     dp[i] = min(dp[i], dp[i-s] + dp[s])
+                # print(dp)
         
         return dp[-1]
