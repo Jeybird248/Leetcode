@@ -10,5 +10,6 @@ class Solution:
                 up = down + 1
             elif nums[i] < nums[i - 1]:
                 down = up + 1
+            # print(up, down)
 
         return max(up, down)
