@@ -1,10 +1,15 @@
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
-        res, d = 0, Counter(nums)
-        for val1, cnt in d.items():
-            val2 = k - val1
-            if val2 < val1 or val2 not in d: 
-                continue 
-            res += min(cnt, d[val2]) if val1 != val2 else cnt//2
-        
-        return res
+        d = defaultdict(int)
+        output = 0
+        for num in nums:
+            d[num] += 1
+        for num in nums:
+            if num == k / 2:
+                output += d[num] // 2
+                d[num] = 0
+            else:
+                output += min(d[num], d[k - num])
+                d[num] = 0
+                d[k - num] = 0
+        return output
