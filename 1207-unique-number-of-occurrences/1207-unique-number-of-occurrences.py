@@ -3,4 +3,4 @@ class Solution:
         d = defaultdict(int)
         for num in arr:
             d[num] += 1
-        return sorted(list(set(d.values()))) == sorted(list(d.values()))
+        return len(set(d.values())) == len(d.values())
