@@ -1,13 +1,6 @@
 class Solution:
     def uniqueOccurrences(self, arr: List[int]) -> bool:
-        s = defaultdict(int)
-        valueCounts = []
+        d = defaultdict(int)
         for num in arr:
-            s[num] += 1
-        for num in s:
-            if s[num] in valueCounts:
-                return False
-            else:
-                valueCounts.append(s[num])
-        return True
-
+            d[num] += 1
+        return sorted(list(set(d.values()))) == sorted(list(d.values()))
