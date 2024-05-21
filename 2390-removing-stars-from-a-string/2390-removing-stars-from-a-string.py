@@ -2,12 +2,11 @@ class Solution:
     def removeStars(self, s: str) -> str:
         # stack - LIFO, removes latest
         # queue - FIFO, removes first
-        output = ""
+        output = []
         for char in s:
             if char == "*":
                 if output:
-                    output = output[:-1]
+                    output.pop()
             else:
-                output += char
-        return output
-                
+                output.append(char)
+        return "".join(output)
