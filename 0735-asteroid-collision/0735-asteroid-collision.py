@@ -6,10 +6,11 @@ class Solution:
                 if stack[-1] < abs(a):
                     stack.pop()
                     continue
-                elif stack[-1] == abs(a):
+                elif abs(a) == stack[-1]:
                     stack.pop()
                 break
             else:
                 stack.append(a)
-        
+            
         return stack
+            
