@@ -16,3 +16,4 @@ class Solution:
         else:
             return None
         return head
+            
