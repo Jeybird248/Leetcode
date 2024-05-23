@@ -3,7 +3,7 @@ class Solution:
         stack = []
         for a in asteroids:
             while stack and a < 0 < stack[-1]:
-                if stack[-1] < abs(a):
+                if abs(a) > stack[-1]:
                     stack.pop()
                     continue
                 elif abs(a) == stack[-1]:
@@ -11,6 +11,4 @@ class Solution:
                 break
             else:
                 stack.append(a)
-            
         return stack
-            
