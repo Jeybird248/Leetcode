@@ -1,27 +1,14 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
+    def helper(self, root, max_val):
         if not root:
-            return 0
-        q = []
-        count = 0
-        maxNode = float('-inf')
-        q.append((root, maxNode))
+            return
+        if root.val >= max_val:
+            self.count += 1
+            max_val = root.val
+        self.helper(root.left, max_val)
+        self.helper(root.right, max_val)
 
-        while q:
-            node, currMax = q.pop()
-            if node.val >= currMax:
-                count += 1
-                currMax = node.val
-
-            if node.left:
-                q.append((node.left, currMax))
-            if node.right:
-                q.append((node.right, currMax))
-
-        return count
+    def goodNodes(self, root: TreeNode) -> int:
+        self.count = 0
+        self.helper(root, root.val)
+        return self.count
