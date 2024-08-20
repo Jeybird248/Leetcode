@@ -14,11 +14,7 @@ class Solution:
                 nums1[pointer3] = nums2[pointer2]
                 pointer2 -= 1
             pointer3 -=1
-        
-        while pointer1 >= 0 and pointer3 >= 0:
-            nums1[pointer3] = nums1[pointer1] 
-            pointer1 -= 1
-            pointer3 -= 1
+    
         while pointer2 >= 0 and pointer3 >= 0:
             nums1[pointer3] = nums2[pointer2]
             pointer2 -= 1
