@@ -1,22 +1,18 @@
 class Solution:
     def generate(self, numRows: int) -> List[List[int]]:
-        output = []
-        
-        def binomialCoeff(n, k) :
-            res = 1
-            if (k > n - k) :
-                k = n - k
-            for i in range(0 , k) :
-                res = res * (n - i)
-                res = res // (i + 1)
+        if numRows == 0:
+            return []
+        if numRows == 1:
+            return [[1]]
 
-            return res
+        prev_rows = self.generate(numRows - 1)
+        prev_row = prev_rows[-1]
+        current_row = [1]
 
+        for i in range(1, numRows - 1):
+            current_row.append(prev_row[i - 1] + prev_row[i])
 
-        for line in range(0, numRows) :
-            arr = []
-            for i in range(0, line + 1) :
-                arr.append(binomialCoeff(line, i))
-            output.append(arr)
-                
-        return output
+        current_row.append(1)
+        prev_rows.append(current_row)
+
+        return prev_rows
