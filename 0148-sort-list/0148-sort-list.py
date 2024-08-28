@@ -10,7 +10,13 @@ class Solution:
             return head
 
         # Step 1: Find the middle of the list
-        mid = self.getMiddle(head)
+        # Fast and slow pointer technique to find the middle
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        mid = slow
 
         # Step 2: Split the list into two halves
         left = head
@@ -18,21 +24,9 @@ class Solution:
         mid.next = None  # Split the list
 
         # Step 3: Recursively sort each half
-        left = self.sortList(left)
-        right = self.sortList(right)
+        l1 = self.sortList(left)
+        l2 = self.sortList(right)
 
-        # Step 4: Merge the two sorted halves
-        return self.mergeTwoLists(left, right)
-
-    def getMiddle(self, head: ListNode) -> ListNode:
-        # Fast and slow pointer technique to find the middle
-        slow, fast = head, head.next
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        return slow
-
-    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
         # Create a dummy node to form the merged list
         dummy = ListNode(0)
         tail = dummy
