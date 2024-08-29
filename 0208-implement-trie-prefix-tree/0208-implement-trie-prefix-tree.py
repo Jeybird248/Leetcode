@@ -17,23 +17,17 @@ class Trie:
     def search(self, word: str) -> bool:
         node = self.root
         for char in word:
-            # If the character is not in the current node, the word is not in the Trie
             if char not in node:
                 return False
-            # Move to the next node (child)
             node = node[char]
-        # Check if the end-of-word marker is in the current node
         return '#' in node
-
+    
     def startsWith(self, prefix: str) -> bool:
         node = self.root
         for char in prefix:
-            # If the character is not in the current node, the word is not in the Trie
             if char not in node:
                 return False
-            # Move to the next node (child)
             node = node[char]
-        # Check if the end-of-word marker is in the current node
         return True
 
 
