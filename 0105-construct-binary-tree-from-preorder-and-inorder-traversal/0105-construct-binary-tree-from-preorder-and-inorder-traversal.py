@@ -5,21 +5,13 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def buildTree(self, preorder, inorder):
-        if not preorder or not inorder:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder:
             return None
-
-        # The first element in preorder is the root of the current subtree
-        root_val = preorder[0]
-        root = TreeNode(root_val)
-
-        # Find the index of the root in inorder list to separate left and right subtrees
-        mid = inorder.index(root_val)
-
-        # Recursively build the left and right subtrees
-        # Left subtree: preorder[1:mid+1], inorder[:mid]
-        # Right subtree: preorder[mid+1:], inorder[mid+1:]
-        root.left = self.buildTree(preorder[1:mid+1], inorder[:mid])
-        root.right = self.buildTree(preorder[mid+1:], inorder[mid+1:])
-
+        root = TreeNode(preorder[0])
+        middle = inorder.index(root.val)
+        root.left = self.buildTree(preorder[1:1 + middle], inorder[:middle])
+        root.right = self.buildTree(preorder[1 + middle:], inorder[middle + 1:])
         return root
+        
+        
