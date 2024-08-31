@@ -5,6 +5,7 @@ class Solution:
             print(path, curr_target)
             if curr_target == 0:
                 self.output.append(list(path))
+                return
             if curr_target < 0:
                 return
             
