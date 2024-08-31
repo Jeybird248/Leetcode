@@ -4,7 +4,7 @@ class Solution:
         def backtrack(currIdx, path, curr_target):
             print(path, curr_target)
             if curr_target == 0:
-                self.output.append(path.copy())
+                self.output.append(list(path))
             if curr_target < 0:
                 return
             
