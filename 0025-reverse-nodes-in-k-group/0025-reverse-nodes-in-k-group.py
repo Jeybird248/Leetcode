@@ -5,7 +5,6 @@
 #         self.next = next
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        
         # problem breaks down to reversing linkedlist
         def reverse(start, end):
             prev = None
@@ -16,34 +15,35 @@ class Solution:
                 prev = curr
                 curr = temp
             return prev
-                
-        # Determine the length of the linked list
-        length = 0
-        node = head
-        while node:
-            length += 1
-            node = node.next
         
-        # Dummy node to simplify the reversal logic
         dummy = ListNode(0)
-        dummy.next = head
-        prev_end = dummy
         
-        while length >= k:
-            start = prev_end.next
-            end = start
+        dummy.next = head
+        curr = dummy
+        
+        length = 0
+        temp = head
+        while temp:
+            temp = temp.next
+            length += 1
             
-            # Move the `end` pointer k steps ahead
-            for _ in range(k):
+        while length >= k:
+            start = curr.next
+            end = start
+            for i in range(k):
                 end = end.next
             
-            # Reverse the segment
-            prev_end.next = reverse(start, end)
+            # Reverse the k-group
+            reversed_head = reverse(start, end)
             
-            # Move `prev_end` k steps ahead to the new segment
+            # Connect reversed part to the previous section
+            curr.next = reversed_head
             start.next = end
-            prev_end = start
             
+            # Move the pointers to the next section
+            curr = start
+            
+            # Reduce the length by k
             length -= k
-        
+            
         return dummy.next
