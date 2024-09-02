@@ -3,48 +3,44 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+
 class Solution:
-    def sortList(self, head: ListNode) -> ListNode:
-        # Base case: if the list is empty or has only one node
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Base case: if the list is empty or has one element, it's already sorted
         if not head or not head.next:
             return head
-
-        # Step 1: Find the middle of the list
-        # Fast and slow pointer technique to find the middle
+        
+        # Step 1: Find the middle of the linked list
         slow, fast = head, head.next
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
-        mid = slow
-
         # Step 2: Split the list into two halves
-        left = head
-        right = mid.next
-        mid.next = None  # Split the list
-
-        # Step 3: Recursively sort each half
-        l1 = self.sortList(left)
-        l2 = self.sortList(right)
-
-        # Create a dummy node to form the merged list
+        middle = slow.next
+        slow.next = None
+        
+        # Step 3: Recursively sort both halves
+        left = self.sortList(head)
+        right = self.sortList(middle)
+        
+        # Step 4: Merge the two sorted halves
         dummy = ListNode(0)
-        tail = dummy
-
-        # Merge two sorted lists
-        while l1 and l2:
-            if l1.val < l2.val:
-                tail.next = l1
-                l1 = l1.next
+        current = dummy
+        
+        while left and right:
+            if left.val < right.val:
+                current.next = left
+                left = left.next
             else:
-                tail.next = l2
-                l2 = l2.next
-            tail = tail.next
-
-        # Append any remaining nodes
-        if l1:
-            tail.next = l1
-        elif l2:
-            tail.next = l2
-
+                current.next = right
+                right = right.next
+            current = current.next
+        
+        # Append the remaining nodes from left or right
+        if left:
+            current.next = left
+        if right:
+            current.next = right
+        
         return dummy.next
