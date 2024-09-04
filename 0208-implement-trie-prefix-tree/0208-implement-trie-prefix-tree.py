@@ -19,17 +19,18 @@ class Trie:
         for char in word:
             if char not in node:
                 return False
+            # Move to the next node (child)
             node = node[char]
-        return '#' in node
-    
+        return '#' in node.keys()
+
     def startsWith(self, prefix: str) -> bool:
         node = self.root
         for char in prefix:
             if char not in node:
                 return False
+            # Move to the next node (child)
             node = node[char]
         return True
-
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
