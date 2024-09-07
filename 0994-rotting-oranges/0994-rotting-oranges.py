@@ -1,37 +1,33 @@
+from typing import List
+
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        time = 0
-        q = deque()
-        fresh = 0
-        
-        m, n = len(grid), len(grid[0])
-        
-        for i in range(m):
-            for j in range(n):
+        q = []
+        fresh_count = 0
+        # Initialize queue with all rotten oranges
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if grid[i][j] == 2:
                     q.append((i, j))
-                elif grid[i][j] == 1:
-                    fresh += 1
-        if fresh == 0:
-            return 0
+                if grid[i][j] == 1:
+                    fresh_count += 1
         
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        while q:
-            time += 1
-            for _ in range(len(q)):
-                x, y = q.popleft()
-
-                for dx, dy in directions:
-                    nx, ny = x + dx, y + dy
-
-                    # Check if the neighboring cell is within bounds and is a fresh orange.
-                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 1:
-                        grid[nx][ny] = 2  # Rot the fresh orange
-                        fresh -= 1  # Decrease the count of fresh oranges
-                        q.append((nx, ny))
-
-                if fresh == 0:
-                    return time
-    
-        # If we exit the loop and there are still fresh oranges left, return -1.
-        return -1
+        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))  # Possible 4 directions
+        timer = 0
+        
+        while q and fresh_count > 0:
+            new_rotten = []
+            while q:  # Process the current rotten oranges
+                point = q.pop(0)
+                for direction in directions:
+                    ni, nj = point[0] + direction[0], point[1] + direction[1]
+                    if 0 <= ni < len(grid) and 0 <= nj < len(grid[0]) and grid[ni][nj] == 1:
+                        grid[ni][nj] = 2  # Mark the orange as rotten
+                        new_rotten.append((ni, nj))  # Add to new rotten list
+                        fresh_count -= 1  # Decrease the fresh orange count
+            
+            q = new_rotten  # Move to the newly rotten oranges
+            if new_rotten:
+                timer += 1  # Increment the timer after processing one round
+        
+        return timer if fresh_count == 0 else -1  # Return -1 if there are fresh oranges left
