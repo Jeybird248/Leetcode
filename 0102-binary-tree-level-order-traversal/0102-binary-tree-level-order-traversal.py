@@ -7,17 +7,16 @@
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         output = []
-        self.max_level = -1
-        def traversal(root, level):
+        
+        def traversal(root, height):
             if not root:
                 return
-            if level > self.max_level:
+            if len(output) <= height:
                 output.append([root.val])
-                self.max_level = level
             else:
-                output[level].append(root.val)
-            traversal(root.left, level + 1)
-            traversal(root.right, level + 1)
-            
+                output[height].append(root.val)
+            traversal(root.left, height + 1)
+            traversal(root.right, height + 1)
+        
         traversal(root, 0)
         return output
