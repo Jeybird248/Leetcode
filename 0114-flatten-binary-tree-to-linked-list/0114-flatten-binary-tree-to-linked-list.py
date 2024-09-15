@@ -9,17 +9,20 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
-        stack = []
-        def traversal(root):
-            if not root:
-                return
-            stack.append(root)
-            traversal(root.left)
-            traversal(root.right)
-        traversal(root)
-        curr = root
-        for node in stack[1:]:
-            curr.left = None
-            curr.right = node
-            curr = curr.right
-        
+        if not root:
+            return
+    
+        self.flatten(root.left)
+        self.flatten(root.right)
+
+        left = root.left
+        right = root.right
+
+        root.left = None
+        root.right = left
+
+        current = root
+        while current.right:
+            current = current.right
+
+        current.right = right
