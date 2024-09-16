@@ -7,7 +7,6 @@ class Solution:
             right += 1
         currSum = maxAvg
         while right < len(nums):
-            print(maxAvg, left, right)
             currSum = currSum - nums[left] + nums[right]
             maxAvg = max(maxAvg, currSum)
             right += 1
