@@ -2,24 +2,26 @@ class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         if not digits:
             return []
-        mappings = {
-            "2":"abc",
-            "3":"def",
-            "4":"ghi",
-            "5":"jkl",
-            "6":"mno",
-            "7":"pqrs",
-            "8":"tuv",
-            "9":"wxyz"
+        d = {
+            "2" : ["a", "b", "c"],
+            "3" : ["d", "e", "f"],
+            "4" : ["g", "h", "i"],
+            "5" : ["j", "k", "l"],
+            "6" : ["m", "n", "o"],
+            "7" : ["p", "q", "r", "s"],
+            "8" : ["t", "u", "v"],
+            "9" : ["w", "x", "y", "z"],
         }
         output = []
         
-        def recursion(curr_digits, curr_string):
-            if len(curr_string) == len(digits):
-                output.append(curr_string)
+        def recursion(curr_str, index):
+            if len(curr_str) == len(digits):
+                output.append(curr_str)
+            if index >= len(digits):
                 return
-            for letter in mappings[curr_digits[0]]:
-                recursion(curr_digits[1:], curr_string + letter)
-        recursion(digits, "")
+            for letter in d[digits[index]]:
+                curr_str += letter
+                recursion(curr_str, index + 1)
+                curr_str = curr_str[:-1]
+        recursion("", 0)
         return output
-            
