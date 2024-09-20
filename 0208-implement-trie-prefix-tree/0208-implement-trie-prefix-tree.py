@@ -4,32 +4,31 @@ class Trie:
         self.root = {}
 
     def insert(self, word: str) -> None:
-        node = self.root
-        for char in word:
-            # If the character is not in the current node, add it
-            if char not in node:
-                node[char] = {}
-            # Move to the next node (child)
-            node = node[char]
-        # Mark the end of a word with a special character
-        node['#'] = True
+        curr = self.root
+        for char in (word + "\0"):
+            if char in curr:
+                curr = curr[char]
+            else:
+                curr[char] = {}
+                curr = curr[char]
+        
 
     def search(self, word: str) -> bool:
-        node = self.root
+        curr = self.root
         for char in word:
-            if char not in node:
+            if char in curr:
+                curr = curr[char]
+            else:
                 return False
-            # Move to the next node (child)
-            node = node[char]
-        return '#' in node.keys()
+        return "\0" in curr
 
     def startsWith(self, prefix: str) -> bool:
-        node = self.root
+        curr = self.root
         for char in prefix:
-            if char not in node:
+            if char in curr:
+                curr = curr[char]
+            else:
                 return False
-            # Move to the next node (child)
-            node = node[char]
         return True
 
 # Your Trie object will be instantiated and called as such:
