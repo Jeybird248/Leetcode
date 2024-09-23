@@ -8,22 +8,24 @@ class Solution:
         if not head or not head.next:
             return head
         curr = head
+        prev = None
         while curr and curr.next:
             if curr == head:
-                temp = head.next
-                curr.next = temp.next
-                temp.next = curr
-                head = temp
+                temp = curr.next.next
+                curr = head.next
+                head.next = temp
+                curr.next = head
+                prev = head
+                head = curr
+                curr = prev.next
             else:
-                prev = curr
-                curr = curr.next
-                temp = curr
-                if curr.next:
-                    curr = curr.next
-                    temp.next = curr.next
-                    curr.next = temp
+                temp = curr.next.next
+                temp2 = curr
+                curr = temp2.next
+                temp2.next = temp
                 prev.next = curr
-                curr = curr.next
-                
-            
+                curr.next = temp2
+                prev = temp2
+                if prev:
+                    curr = prev.next
         return head
