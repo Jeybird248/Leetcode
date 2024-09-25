@@ -6,6 +6,7 @@ class Solution:
         def backtrack(curr_arr):
             if len(curr_arr) == len(nums) and curr_arr not in output:
                 output.append(curr_arr[:])
+                return
             for i in range(len(nums)):
                 if not visited[i]:
                     visited[i] = True
