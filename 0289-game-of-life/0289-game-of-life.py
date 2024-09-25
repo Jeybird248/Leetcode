@@ -3,32 +3,37 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        directions = [(1, 1), (1, -1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1), (-1, 1)]
+        # Directions for all 8 possible neighbors (including diagonals)
+        directions = [(-1, 0), (1, 0), (0, 1), (0, -1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
         
-        def is_valid(row, col):
-            return 0 <= row < len(board) and 0 <= col < len(board[0])
+        rows, cols = len(board), len(board[0])
         
-        m, n = len(board), len(board[0])
-        for row in range(m):
-            for col in range(n):
+        # Step 1: Update board in-place with future state indicators:
+        # -1: was alive, now dead
+        # 2: was dead, now alive
+        
+        for i in range(rows):
+            for j in range(cols):
                 live_neighbors = 0
-                for direction in directions:
-                    new_row, new_col = row + direction[0], col + direction[1]
-                    if is_valid(new_row, new_col) and abs(board[new_row][new_col]) == 1:
+                
+                # Count live neighbors
+                for d in directions:
+                    ni, nj = i + d[0], j + d[1]
+                    if 0 <= ni < rows and 0 <= nj < cols and abs(board[ni][nj]) == 1:
                         live_neighbors += 1
                 
-                # If cell is dead and has exactly 3 live neighbors, it becomes alive.
-                if board[row][col] == 0 and live_neighbors == 3:
-                    board[row][col] = 2  # Dead to alive transition
-                
-                # If cell is alive and does not have 2 or 3 live neighbors, it dies.
-                if board[row][col] == 1 and not (2 <= live_neighbors <= 3):
-                    board[row][col] = -1  # Alive to dead transition
+                # Apply Game of Life rules
+                if board[i][j] == 1:  # Live cell
+                    if live_neighbors < 2 or live_neighbors > 3:
+                        board[i][j] = -1  # Alive to dead
+                else:  # Dead cell
+                    if live_neighbors == 3:
+                        board[i][j] = 2  # Dead to alive
         
-        # Final pass to update the board.
-        for row in range(m):
-            for col in range(n):
-                if board[row][col] == 2:
-                    board[row][col] = 1  # Mark cells that became alive
-                elif board[row][col] == -1:
-                    board[row][col] = 0  # Mark cells that died
+        # Step 2: Finalize board state (replace -1 with 0, and 2 with 1)
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] == -1:
+                    board[i][j] = 0  # Now dead
+                elif board[i][j] == 2:
+                    board[i][j] = 1  # Now alive
