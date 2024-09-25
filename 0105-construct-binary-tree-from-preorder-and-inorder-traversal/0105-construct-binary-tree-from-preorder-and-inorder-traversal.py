@@ -8,10 +8,9 @@ class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         if not preorder:
             return None
-        root = TreeNode(preorder[0])
-        middle = inorder.index(root.val)
-        root.left = self.buildTree(preorder[1:1 + middle], inorder[:middle])
-        root.right = self.buildTree(preorder[1 + middle:], inorder[middle + 1:])
-        return root
-        
-        
+        else:
+            root = TreeNode(preorder[0])
+            middle = inorder.index(root.val)
+            root.left = self.buildTree(preorder[1:1 + middle], inorder[:middle])
+            root.right = self.buildTree(preorder[middle + 1:], inorder[middle + 1:])
+            return root
