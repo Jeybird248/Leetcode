@@ -1,30 +1,23 @@
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        rows, cols = len(grid), len(grid[0])
-        visit = set()
+        self.currCount = 0
+        self.maxCount = 0
+        directions = [(-1, 0),(1,0),(0,1),(0,-1)]
+        
+        def bfs(x, y):
+            if 0 <= x < len(grid[0]) and 0 <= y < len(grid) and grid[y][x] == 1:
+                grid[y][x] = -1
+                self.currCount += 1 
+                for d in directions:
+                    bfs(x + d[0], y + d[1])
+                
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    self.currCount = 0
+                    bfs(j, i)
+                    self.maxCount = max(self.maxCount, self.currCount)
+        
+        return self.maxCount
 
-        def dfs(r, c):
-            # Base cases:
-            # If the cell is out of bounds or water (0) or already visited, return 0
-            bounds = (r < 0 or r == rows or c < 0 or c == cols)
-            if (bounds
-                or grid[r][c] == 0
-                or (r, c) in visit
-            ):
-                return 0
-            # Mark the current cell as visited
-            visit.add((r, c))
-            # Explore adjacent cells in all four directions and count the area
-            return (1 + dfs(r + 1, c) + dfs(r - 1, c) + dfs(r, c + 1) + dfs(r, c - 1))
-
-        # Initialize the maximum area of the island
-        area = 0
-        # Iterate through each cell in the grid
-        for r in range(rows):
-            for c in range(cols):
-                # If the cell represents land (1) and hasn't been visited yet
-                if grid[r][c] == 1 and (r, c) not in visit:
-                    # Calculate the area of the island starting from this cell
-                    area = max(area, dfs(r, c))
-        # Return the maximum area of the island
-        return area
+        
