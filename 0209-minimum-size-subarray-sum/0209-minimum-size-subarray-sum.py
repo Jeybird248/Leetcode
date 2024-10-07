@@ -1,17 +1,18 @@
+from typing import List
+
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         left = 0
-        currSum = 0
-        minLen = float("inf")
+        current_sum = 0  # This will track the sum of the current window
+        min_len = float("inf")  # Use to find the minimum length
         
         for right in range(len(nums)):
-            currSum += nums[right]  # add current element to the running sum
-
-            # shrink the window from the left as long as the current sum is greater than or equal to the target
-            while currSum >= target:
-                minLen = min(minLen, right - left + 1)  # calculate the length of the current window
-                currSum -= nums[left]  # remove the leftmost element from the sum
-                left += 1  # move the left pointer to the right
+            current_sum += nums[right]  # Expand the window by moving the right pointer
+            
+            # Contract the window until the sum is less than the target
+            while current_sum >= target:
+                min_len = min(min_len, right - left + 1)  # Update minimum length
+                current_sum -= nums[left]  # Shrink the window by moving the left pointer
+                left += 1
         
-        # if we found a valid subarray, return its length, otherwise return 0
-        return minLen if minLen != float("inf") else 0
+        return min_len if min_len != float("inf") else 0
