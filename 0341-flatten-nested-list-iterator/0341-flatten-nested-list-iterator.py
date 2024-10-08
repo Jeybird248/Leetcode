@@ -1,39 +1,30 @@
-# """
-# This is the interface that allows for creating nested lists.
-# You should not implement it, or speculate about its implementation
-# """
-#class NestedInteger:
-#    def isInteger(self) -> bool:
-#        """
-#        @return True if this NestedInteger holds a single integer, rather than a nested list.
-#        """
-#
-#    def getInteger(self) -> int:
-#        """
-#        @return the single integer that this NestedInteger holds, if it holds a single integer
-#        Return None if this NestedInteger holds a nested list
-#        """
-#
-#    def getList(self) -> [NestedInteger]:
-#        """
-#        @return the nested list that this NestedInteger holds, if it holds a nested list
-#        Return None if this NestedInteger holds a single integer
-#        """
-
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        self.root = nestedList
-    
-    def next(self) -> int:
-        while not self.root[0].isInteger():
-            self.root = self.root[0].getList() + self.root[1:]
-        return self.root.pop(0).getInteger()
-    
-    def hasNext(self) -> bool:
-         while self.root and not self.root[0].isInteger():
-            self.root = self.root[0].getList() + self.root[1:]
-         return self.root != []
+        # Initialize the stack with the nested list and index
+        self.stack = [(nestedList, 0)]
 
-# Your NestedIterator object will be instantiated and called as such:
-# i, v = NestedIterator(nestedList), []
-# while i.hasNext(): v.append(i.next())
+    def next(self) -> int:
+        # We assume hasNext() is called before next(), so the stack should be pointing to an integer
+        nestedList, idx = self.stack[-1]
+        self.stack[-1] = (nestedList, idx + 1)  # Move the index forward after getting the integer
+        return nestedList[idx].getInteger()
+
+    def hasNext(self) -> bool:
+        while self.stack:
+            nestedList, idx = self.stack[-1]
+
+            # If we've reached the end of the current list, pop from the stack
+            if idx == len(nestedList):
+                self.stack.pop()
+            else:
+                element = nestedList[idx]
+                
+                if element.isInteger():
+                    # The current element is an integer, we're ready to return it
+                    return True
+                else:
+                    # The current element is a list, so we replace the current index and drill down
+                    self.stack[-1] = (nestedList, idx + 1)  # Move index forward for the current list
+                    self.stack.append((element.getList(), 0))  # Push the nested list onto the stack
+        
+        return False  # If the stack is empty, there are no more integers
