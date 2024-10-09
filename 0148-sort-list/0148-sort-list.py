@@ -7,33 +7,32 @@ class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head or not head.next:
             return head
-        slow, fast = head, head.next
+        fast, slow = head.next, head
         while fast and fast.next:
             fast = fast.next.next
             slow = slow.next
         
-        middle = slow.next
+        temp = slow.next
         slow.next = None
         
         left = self.sortList(head)
-        right = self.sortList(middle)
+        right = self.sortList(temp)
         
-        dummy = ListNode(0)
-        current = dummy
+        dummy = ListNode()
+        curr = dummy
         
         while left and right:
-            if left.val < right.val:
-                current.next = left
-                left = left.next
-            else:
-                current.next = right
+            if left.val > right.val:
+                curr.next = right
+                curr = curr.next
                 right = right.next
-            current = current.next
-        
-        # Append the remaining nodes from left or right
+            else:
+                curr.next = left
+                curr = curr.next
+                left = left.next
         if left:
-            current.next = left
+            curr.next = left
         if right:
-            current.next = right
+            curr.next = right
         
         return dummy.next
