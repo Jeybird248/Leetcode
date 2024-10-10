@@ -8,15 +8,14 @@ class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         output = []
         
-        def traversal(root, height):
+        def traverse(root, level):
             if not root:
-                return
-            if len(output) <= height:
+                return root
+            if level >= len(output):
                 output.append([root.val])
             else:
-                output[height].append(root.val)
-            traversal(root.left, height + 1)
-            traversal(root.right, height + 1)
-        
-        traversal(root, 0)
+                output[level].append(root.val)
+            traverse(root.left, level + 1)
+            traverse(root.right, level + 1)
+        traverse(root, 0)
         return output
