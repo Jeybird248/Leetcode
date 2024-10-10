@@ -1,18 +1,14 @@
+from heapq import heappush, heappushpop
+
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
-        max_heap = []
-
-        # Iterate over each point
-        for x, y in points:
-            # Calculate the squared Euclidean distance (no need to compute the square root, since it's unnecessary for comparison)
-            distance = x**2 + y**2
-
-            # Push a tuple with (-distance, [x, y]) into the heap
-            heapq.heappush(max_heap, (-distance, [x, y]))
-
-            # If the heap exceeds size k, remove the farthest point
-            if len(max_heap) > k:
-                heapq.heappop(max_heap)
-
-        # Extract the coordinates from the heap
-        return [coord for _, coord in max_heap]
+        heap = []
+        
+        for point in points:
+            dist = -(point[0] ** 2 + point[1] ** 2)  # use negative distance to simulate max-heap
+            if len(heap) < k:
+                heappush(heap, (dist, point))  # push distance as the first element
+            else:
+                heappushpop(heap, (dist, point))  # replace farthest point if necessary
+        
+        return [x[1] for x in heap]  # extract points from heap
