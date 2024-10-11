@@ -19,9 +19,10 @@ class Solution:
         output = ""
         
         while num:
-            for integer in d.keys():
-                if integer <= num:
-                    output += d[integer]
-                    num -= integer
+            print(num)
+            for n in d.keys():
+                if n <= num:
+                    output += (d[n])
+                    num -= n
                     break
         return output
