@@ -12,16 +12,15 @@ class Solution:
             "8" : ["t", "u", "v"],
             "9" : ["w", "x", "y", "z"],
         }
+        
         output = []
         
-        def recursion(curr_str, index):
+        def recursion(curr_str, curr_d):
             if len(curr_str) == len(digits):
-                output.append(curr_str)
-            if index >= len(digits):
+                output.append(curr_str[:])
                 return
-            for letter in d[digits[index]]:
-                curr_str += letter
-                recursion(curr_str, index + 1)
-                curr_str = curr_str[:-1]
-        recursion("", 0)
+            for num in d[curr_d[0]]:
+                recursion(curr_str + num, curr_d[1:])
+        
+        recursion("", digits)
         return output
