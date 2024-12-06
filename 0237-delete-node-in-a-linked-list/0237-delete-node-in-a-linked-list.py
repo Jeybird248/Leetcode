@@ -10,7 +10,5 @@ class Solution:
         :type node: ListNode
         :rtype: void Do not return anything, modify node in-place instead.
         """
-        skipTo = node.next.next
         node.val = node.next.val
-        node.next.next = None
-        node.next = skipTo
+        node.next.next, node.next = None, node.next.next
