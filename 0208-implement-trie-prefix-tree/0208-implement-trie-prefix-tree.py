@@ -1,35 +1,38 @@
 class Trie:
 
     def __init__(self):
-        self.root = {}
+        self.map = {}
 
     def insert(self, word: str) -> None:
-        curr = self.root
-        for char in (word + "\0"):
-            if char in curr:
-                curr = curr[char]
+        curr = self.map
+        # print(curr)
+        for c in word + ".":
+            if c in curr:
+                curr = curr[c]
             else:
-                curr[char] = {}
-                curr = curr[char]
+                curr[c] = {}
+                curr = curr[c]
         
-
     def search(self, word: str) -> bool:
-        curr = self.root
-        for char in word:
-            if char in curr:
-                curr = curr[char]
-            else:
-                return False
-        return "\0" in curr
-
-    def startsWith(self, prefix: str) -> bool:
-        curr = self.root
-        for char in prefix:
-            if char in curr:
-                curr = curr[char]
+        curr = self.map
+        # print(curr)
+        for c in word + ".":
+            if c in curr:
+                curr = curr[c]
             else:
                 return False
         return True
+
+    def startsWith(self, prefix: str) -> bool:
+        curr = self.map
+        # print(curr)
+        for c in prefix:
+            if c in curr:
+                curr = curr[c]
+            else:
+                return False
+        return True
+
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
